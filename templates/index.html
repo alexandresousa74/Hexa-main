@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Vendas {% endblock %}</h1>
+    <a href="{{url_for('nova_venda')}}" class="btn btn-primary">Nova Venda</a>
+    {% for venda in vendas %}
+        <a href="{{ url_for('venda', venda_id=venda['id']) }}">
+            <h2>{{ venda['datahora'] }}</h2>
+        </a>
+        <span class="badge badge-primary">{{ venda['cliente'] }}</span>
+        <span class="badge badge-primary">{{ venda['produto'] }}</span>
+        
+        <hr>
+    {% endfor %}
+{% endblock %}
