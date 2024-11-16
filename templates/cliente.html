@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>{% block title %} {{ cliente['nome'] }} {% endblock %}</h2>
+    <h2>{% block title %} {{ cliente['empresa'] }} {% endblock %}</h2>
+    <p>Contato: {{ cliente['contato'] }}</p>
+    <p>E-mail: {{ cliente['email'] }}</p>
     <p>Telefone: {{ cliente['telefone'] }}</p>
     <p>Cidade: {{ cliente['cidade'] }}</p>
+    <p>Segmento: {{ cliente['segmento'] }}</p>
     <a href="{{ url_for('edit_cliente', cliente_id=cliente['id']) }}">
         <span class="badge badge-warning">Editar</span>
     </a>

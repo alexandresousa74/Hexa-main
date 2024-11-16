@@ -1,14 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{% block title %} Editar "{{ cliente['nome'] }}" {% endblock %}</h1>
+<h1>{% block title %} Editar "{{ cliente['empresa'] }}" {% endblock %}</h1>
 
 <form method="post">
     <div class="form-group">
-        <label for="nome">Nome do Cliente</label>
-        <input type="text" name="nome" placeholder="Nome do Cliente"
+        <label for="empresa">Nome da Empresa</label>
+        <input type="text" name="empresa" placeholder="Nome da Empresa"
                class="form-control"
-               value="{{ request.form['nome'] or cliente['nome'] }}">
+               value="{{ request.form['empresa'] or cliente['empresa'] }}">
+        </input>
+    </div>
+
+    <div class="form-group">
+        <label for="contato">Nome do Contato</label>
+        <input type="text" name="contato" placeholder="Nome do Contato"
+               class="form-control"
+               value="{{ request.form['contato'] or cliente['contato'] }}">
+        </input>
+    </div>
+
+    <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="text" name="email" placeholder="xxx@yyy"
+               class="form-control"
+               value="{{ request.form['email'] or cliente['email'] }}">
         </input>
     </div>
 
@@ -24,6 +40,14 @@
         <input type="text" name="cidade" 
                placeholder="Cidade" class="form-control"
                value="{{ request.form['cidade']  or cliente['cidade'] }}"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="segmento">Segmento</label>
+        <input type="text" name="segmento" placeholder="segmento"
+               class="form-control"
+               value="{{ request.form['segmento'] or cliente['segmento'] }}">
+        </input>
     </div>
 
     <div class="form-group">
