@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>{% block title %} {{ projeto['cliente'] }} {% endblock %}</h2>
+    <p>Cliente: {{ projeto['cliente'] }}</p>
+    <p>Produto:  {{ projeto['servicos'] }}</p>
+    <p>Valor Total: {{ projeto['valor'] }}</p>
+    <p>Pago:  {{ projeto['inicio'] }}</p>
+    <p>Entregue:  {{ projeto['fim'] }}</p>
+    <a href="{{ url_for('edit_projeto', projeto_id=projeto['id']) }}">
+        <span class="badge badge-warning">Editar</span>
+    </a>
+{% endblock %}

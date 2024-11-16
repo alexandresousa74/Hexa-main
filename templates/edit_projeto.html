@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %} Editar "{{ projeto['cliente'] }}" {% endblock %}</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label for="cliente">Nome do Cliente</label>
+        <input type="text" name="cliente" placeholder="Nome do Cliente"
+               class="form-control"
+               value="{{ request.form['cliente'] or projeto['cliente'] }}">
+        </input>
+    </div>
+
+    <div class="form-group">
+        <label for="servicos">Nome do Serviço</label>
+        <input type="text" name="servicos" placeholder="Nome do Serviço"
+               class="form-control"
+               value="{{ request.form['servicos'] or projeto['servicos'] }}">
+        </input>
+    </div>
+
+    <div class="form-group">
+        <label for="valor">Valor</label>
+        <input type="text" name="valor" 
+               placeholder="Valor" class="form-control"
+               value="{{ request.form['valor'] or projeto['valor'] }}"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="inicio">Data de Início</label>
+        <input type="text" name="inicio" 
+               placeholder="Data de Início" class="form-control"
+               value="{{ request.form['inicio']  or projeto['inicio'] }}"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="fim">Data Final</label>
+        <input type="text" name="fim" 
+               placeholder="Data Final" class="form-control"
+               value="{{ request.form['fim']  or projeto['fim'] }}"></input>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </div>
+</form>
+<hr>
+<form action="{{ url_for('delete_projeto', projeto_id=projeto['id']) }}" method="POST">
+    <input type="submit" value="Apagar"
+            class="btn btn-danger btn-sm"
+            onclick="return confirm('Tem certeza que deseja excluir esse projeto?')">
+</form>
+
+{% endblock %}

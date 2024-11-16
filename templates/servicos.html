@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Serviços {% endblock %}</h1>
+    <a href="{{url_for('novo_servico')}}" class="btn btn-primary">Novo Serviço</a>
+    {% for servico in servicos %}
+        <a href="{{ url_for('servico', servico_id=servico['id']) }}">
+            <h2>{{ servico['descricao'] }}</h2>
+        </a>
+        <span class="badge badge-primary">{{ servico['valor'] }}</span>
+        <span class="badge badge-primary">{{ servico['segmento'] }}</span>
+       
+        <hr>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>{% block title %} {{ servico['descricao'] }} {% endblock %}</h2>
+    <p>Valor:  {{ servico['valor'] }}</p>
+    <p>Segmento:  {{ servico['segmento'] }}</p>
+    <a href="{{ url_for('edit_servico', servico_id=servico['id']) }}">
+        <span class="badge badge-warning">Editar</span>
+    </a>
+{% endblock %}

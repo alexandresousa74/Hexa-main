@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %} Adicionar um Novo Projeto {% endblock %}</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label for="cliente">Nome do Cliente</label>
+        <input type="text" name="cliente"
+               placeholder="Cliente" class="form-control"
+               value="{{ request.form['cliente'] }}"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="servicos">Nome do Serviço</label>
+        <input type="text" name="servicos" 
+               placeholder="Serviço" class="form-control"
+               value="{{ request.form['servicos'] }}"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="valor">Valor</label>
+        <input type="text" name="valor" 
+               placeholder="Valor" class="form-control"
+               value="{{ request.form['valor'] }}"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="inicio">Data de Início</label>
+        <input type="text" name="inicio" 
+               placeholder="Data de Início" class="form-control"
+               value="{{ request.form['inicio'] }}"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="fim">Data Final</label>
+        <input type="text" name="fim" 
+               placeholder="Data Final" class="form-control"
+               value="{{ request.form['fim'] }}"></input>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </div>
+</form>
+{% endblock %}

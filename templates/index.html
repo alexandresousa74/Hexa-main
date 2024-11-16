@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Vendas {% endblock %}</h1>
-    <a href="{{url_for('nova_venda')}}" class="btn btn-primary">Nova Venda</a>
-    {% for venda in vendas %}
-        <a href="{{ url_for('venda', venda_id=venda['id']) }}">
-            <h2>{{ venda['datahora'] }}</h2>
+    <h1>{% block title %} Projetos {% endblock %}</h1>
+    <a href="{{url_for('novo_projeto')}}" class="btn btn-primary">Novo Projeto</a>
+    {% for projeto in projetos %}
+        <a href="{{ url_for('projeto', projeto_id=projeto['id']) }}">
+            <h2>{{ projeto['cliente'] }}</h2>
         </a>
-        <span class="badge badge-primary">{{ venda['cliente'] }}</span>
-        <span class="badge badge-primary">{{ venda['produto'] }}</span>
-        
+        <span class="badge badge-primary">{{ projeto['servicos'] }}</span>
+        <span class="badge badge-primary">{{ projeto['valor'] }}</span>
+        <span class="badge badge-primary">{{ projeto['inicio'] }}</span>
+        <span class="badge badge-primary">{{ projeto['fim'] }}</span>
         <hr>
     {% endfor %}
 {% endblock %}
