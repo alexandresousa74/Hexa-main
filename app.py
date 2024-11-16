@@ -14,43 +14,41 @@ db = SQLAlchemy(app)
 
 class Clientes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(80), nullable=False)
+    empresa = db.Column(db.String(80), nullable=False)
+    contato = db.Column(db.String(80), nullable=False)
+    email = db.Column(db.String(80), nullable=False)
     telefone = db.Column(db.String(10), nullable=False)
     cidade = db.Column(db.String(80), nullable=False)
+    segmento = db.Column(db.String(80), nullable=False)
 
-class Vendas(db.Model):
+class Projetos(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    datahora = db.Column(db.DateTime, default=datetime.datetime.now)
     cliente = db.Column(db.String(80), nullable=False)
-    produto = db.Column(db.String(30), nullable=False)
-    qtde = db.Column(db.Integer, nullable=False)
-    valor_total = db.Column(db.String(10), nullable=False)
-    pago = db.Column(db.String(10), nullable=False)
-    entregue = db.Column(db.String(10), nullable=False)
+    servicos = db.Column(db.String(80), nullable=False)
+    valor = db.Column(db.String(10), nullable=False)
+    inicio = db.Column(db.String(10), nullable=False)
+    fim = db.Column(db.String(10), nullable=False)
 
-class Produtos(db.Model):
+class Servicos(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     descricao = db.Column(db.String(80), nullable=False)
-    peso = db.Column(db.Integer, nullable=False)
-    volume = db.Column(db.Integer, nullable=False)
-    sabor = db.Column(db.String(80), nullable=False)
-    valor_custo = db.Column(db.String(10), nullable=False)
-    valor_venda = db.Column(db.String(10), nullable=False)
+    valor = db.Column(db.String(10), nullable=False)
+    segmento = db.Column(db.String(80), nullable=False)
 
 @app.route('/')
 def index():
-    vendas = Vendas.query.all()
-    return render_template('index.html', vendas = vendas)
+    projetos = Projetos.query.all()
+    return render_template('index.html', projetos = projetos)
 
 @app.route('/clientes')
 def clientes():
     clientes = Clientes.query.all()
     return render_template('clientes.html', clientes = clientes)
 
-@app.route('/produtos')
-def produtos():
-    produtos = Produtos.query.all()
-    return render_template('produtos.html', produtos = produtos)
+@app.route('/servicos')
+def servicos():
+    servicos = Servicos.query.all()
+    return render_template('servicos.html', servicos = servicos)
 
 def get_cliente(cliente_id):
     cliente = Clientes.query.filter_by(id=cliente_id).first()
@@ -58,102 +56,107 @@ def get_cliente(cliente_id):
         abort(404)
     return cliente
 
-def get_venda(venda_id):
-    venda = Vendas.query.filter_by(id=venda_id).first()
-    if venda is None:
+def get_projeto(projeto_id):
+    projeto = Projetos.query.filter_by(id=projeto_id).first()
+    if projeto is None:
         abort(404)
-    return venda
+    return projeto
 
-def get_produto(produto_id):
-    produto = Produtos.query.filter_by(id=produto_id).first()
-    if produto is None:
+def get_servico(servico_id):
+    servico = Servicos.query.filter_by(id=servico_id).first()
+    if servico is None:
         abort(404)
-    return produto
+    return servico
 
-@app.route('/vendas/<int:venda_id>')
-def venda(venda_id):
-    venda = get_venda(venda_id)
-    return render_template('venda.html', venda = venda)
+@app.route('/projetos/<int:projeto_id>')
+def projeto(projeto_id):
+    projeto = get_projeto(projeto_id)
+    return render_template('projeto.html', projeto = projeto)
 
 @app.route('/clientes/<int:cliente_id>')
 def cliente(cliente_id):
     cliente = get_cliente(cliente_id)
     return render_template('cliente.html', cliente = cliente)
 
-@app.route('/produtos/<int:produto_id>')
-def produto(produto_id):
-    produto = get_produto(produto_id)
-    return render_template('produto.html', produto = produto)
+@app.route('/servicos/<int:servico_id>')
+def servico(servico_id):
+    servico = get_servico(servico_id)
+    return render_template('servico.html', servico = servico)
 
 @app.route('/novo_cliente', methods=('GET', 'POST'))
 def novo_cliente():
     if request.method == 'POST':
-        nome = request.form['nome']
+        empresa = request.form['empresa']
+        contato = request.form['contato']
+        email = request.form['email']
         telefone = request.form['telefone']
         cidade = request.form['cidade']
+        segmento = request.form['segmento']
 
-        if not nome:
-            flash('Digite o nome do cliente!')
+        if not empresa:
+            flash('Digite o nome da empresa!')
         else:
-            cliente = Clientes(nome=nome, telefone=telefone, cidade=cidade)
+            cliente = Clientes(empresa=empresa, contato=contato, email=email, telefone=telefone, cidade=cidade, segmento=segmento)
             db.session.add(cliente)
             db.session.commit()
             return redirect(url_for('clientes'))
     return render_template('novo_cliente.html')
 
-@app.route('/nova_venda', methods=('GET', 'POST'))
-def nova_venda():
+@app.route('/novo_projeto', methods=('GET', 'POST'))
+def novo_projeto():
     if request.method == 'POST':
         cliente = request.form['cliente']
-        produto = request.form['produto']
-        qtde = request.form['qtde']
-        valor_total = request.form['valor_total']
-        pago = request.form['pago']
-        entregue = request.form['entregue']
+        servicos = request.form['servicos']
+        valor = request.form['valor']
+        inicio = request.form['inicio']
+        fim = request.form['fim']
 
-        if not cliente or not produto:
-            flash('Digite o nome do cliente e do produto!')
+        if not cliente or not servicos:
+            flash('Digite o nome do cliente e do serviço!')
         else:
-            venda = Vendas(cliente=cliente, produto=produto, qtde=qtde, valor_total=valor_total, pago=pago, entregue=entregue)
-            db.session.add(venda)
+            projeto = Projetos(cliente=cliente, servicos=servicos, valor=valor, inicio=inicio, fim=fim)
+            db.session.add(projeto)
             db.session.commit()
             return redirect(url_for('index'))
-    return render_template('nova_venda.html')
+    return render_template('novo_projeto.html')
 
-@app.route('/novo_produto', methods=('GET', 'POST'))
-def novo_produto():
+@app.route('/novo_servico', methods=('GET', 'POST'))
+def novo_servico():
     if request.method == 'POST':
         descricao = request.form['descricao']
-        peso = request.form['peso']
-        volume = request.form['volume']
-        sabor = request.form['sabor']
-        valor_custo = request.form['valor_custo']
-        valor_venda = request.form['valor_venda']
+        valor = request.form['valor']
+        segmento = request.form['segmento']
 
         if not descricao:
-            flash('Digite a descrição do produto!')
+            flash('Digite a descrição do serviço!')
         else:
-            produto = Produtos(descricao=descricao, peso=peso, volume=volume, sabor=sabor, valor_custo=valor_custo, valor_venda=valor_venda)
-            db.session.add(produto)
+            servico = Servicos(descricao=descricao,valor=valor, segmento=segmento)
+            db.session.add(servico)
             db.session.commit()
-            return redirect(url_for('produtos'))
-    return render_template('novo_produto.html')
+            return redirect(url_for('servicos'))
+    return render_template('novo_servico.html')
 
 @app.route('/clientes/<int:cliente_id>/edit', methods=('GET', 'POST'))
 def edit_cliente(cliente_id):
     cliente = get_cliente(cliente_id)
 
     if request.method == 'POST':
-        nome = request.form['nome']
+        empresa = request.form['empresa']
+        contato = request.form['contato']
+        email = request.form['email']
         telefone = request.form['telefone']
         cidade = request.form['cidade']
+        segmento = request.form['segmento']
 
-        if not nome:
-            flash('Digite o nome do cliente!')
+        if not empresa:
+            flash('Digite o nome da empresa!')
         else:
-            cliente.nome = nome
+            cliente.empresa = empresa
+            cliente.contato = contato
+            cliente.email = email
             cliente.telefone = telefone
             cliente.cidade = cidade
+            cliente.segmento = segmento
             db.session.commit()
             return redirect(url_for('clientes'))
 
@@ -164,73 +167,65 @@ def delete_cliente(cliente_id):
     cliente = get_cliente(cliente_id)
     db.session.delete(cliente)
     db.session.commit()
-    flash('"{}" foi apagado com sucesso!'.format(cliente.nome))
+    flash('"{}" foi apagado com sucesso!'.format(cliente.empresa))
     return redirect(url_for('clientes'))
 
-@app.route('/vendas/<int:venda_id>/edit', methods=('GET', 'POST'))
-def edit_venda(venda_id):
-    venda = get_venda(venda_id)
+@app.route('/projetos/<int:projeto_id>/edit', methods=('GET', 'POST'))
+def edit_projeto(projeto_id):
+    projeto = get_projeto(projeto_id)
 
     if request.method == 'POST':
         cliente = request.form['cliente']
-        produto = request.form['produto']
-        qtde = request.form['qtde']
-        valor_total = request.form['valor_total']
-        pago = request.form['pago']
-        entregue = request.form['entregue']
+        servicos = request.form['servicos']
+        valor = request.form['valor']
+        inicio = request.form['inicio']
+        fim = request.form['fim']
 
-        if not cliente or not produto:
-            flash('Digite o nome do cliente e do produto!')
+        if not cliente or not servicos:
+            flash('Digite o nome do cliente e do serviço!')
         else:
-            venda.cliente=cliente
-            venda.produto=produto
-            venda.qtde=qtde
-            venda.valor_total=valor_total
-            venda.pago=pago
-            venda.entregue=entregue
+            projeto.cliente=cliente
+            projeto.servicos=servicos
+            projeto.valor=valor
+            projeto.inicio=inicio
+            projeto.fim=fim
             db.session.commit()
             return redirect(url_for('index'))
 
-    return render_template('edit_venda.html', venda=venda)
+    return render_template('edit_projeto.html', projeto=projeto)
 
-@app.route('/<int:venda_id>/delete', methods=('POST',))
-def delete_venda(venda_id):
-    venda = get_venda(venda_id)
-    db.session.delete(venda)
+@app.route('/<int:projeto_id>/delete', methods=('POST',))
+def delete_projeto(projeto_id):
+    projeto = get_projeto(projeto_id)
+    db.session.delete(projeto)
     db.session.commit()
-    flash('"{}" foi apagado com sucesso!'.format(venda.datahora))
+    flash('"{}" foi apagado com sucesso!'.format(projeto.cliente))
     return redirect(url_for('index'))
 
-@app.route('/produtos/<int:produto_id>/edit', methods=('GET', 'POST'))
-def edit_produto(produto_id):
-    produto = get_produto(produto_id)
+@app.route('/servicos/<int:servico_id>/edit', methods=('GET', 'POST'))
+def edit_servico(servico_id):
+    servico = get_servico(servico_id)
 
     if request.method == 'POST':
         descricao = request.form['descricao']
-        peso = request.form['peso']
-        volume = request.form['volume']
-        sabor = request.form['sabor']
-        valor_custo = request.form['valor_custo']
-        valor_venda = request.form['valor_venda']
+        valor = request.form['valor']
+        segmento = request.form['segmento']
 
         if not descricao:
-            flash('Digite a descrição do produto!')
+            flash('Digite a descrição do serviço!')
         else:
-            produto.descricao = descricao
-            produto.peso = peso
-            produto.volume = volume
-            produto.sabor = sabor
-            produto.valor_custo = valor_custo
-            produto.valor_venda = valor_venda
+            servico.descricao = descricao
+            servico.valor = valor
+            servico.segmento = segmento
             db.session.commit()
-            return redirect(url_for('produtos'))
+            return redirect(url_for('servicos'))
 
-    return render_template('edit_produto.html', produto=produto)
+    return render_template('edit_servico.html', servico=servico)
 
-@app.route('/produtos/<int:produto_id>/delete', methods=('POST',))
-def delete_produto(produto_id):
-    produto = get_produto(produto_id)
-    db.session.delete(produto)
+@app.route('/servicos/<int:servico_id>/delete', methods=('POST',))
+def delete_servico(servico_id):
+    servico = get_servico(servico_id)
+    db.session.delete(servico)
     db.session.commit()
-    flash('"{}" foi apagado com sucesso!'.format(produto.descricao))
-    return redirect(url_for('produtos'))
+    flash('"{}" foi apagado com sucesso!'.format(servico.descricao))
+    return redirect(url_for('servicos'))
