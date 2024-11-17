@@ -2,32 +2,30 @@ DROP TABLE IF EXISTS clientes;
 
 CREATE TABLE clientes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,
+    empresa TEXT NOT NULL,
+    contato TEXT NOT NULL,
+    email TEXT NOT NULL,
     telefone TEXT NOT NULL,
-    cidade TEXT NOT NULL
+    cidade TEXT NOT NULL,
+    segmento TEXT NOT NULL
 );
 
-DROP TABLE IF EXISTS vendas;
+DROP TABLE IF EXISTS projetos;
 
-CREATE TABLE vendas (
+CREATE TABLE projetos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    datahora TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     cliente TEXT NOT NULL,
-    produto TEXT NOT NULL,
-    qtde INTEGER NOT NULL,
-    valor_total TEXT NOT NULL,
-    pago TEXT NOT NULL,
-    entregue TEXT NOT NULL
+    servicos TEXT NOT NULL,
+    valor TEXT NOT NULL,
+    inicio TEXT NOT NULL,
+    fim TEXT NOT NULL
 );
 
-DROP TABLE IF EXISTS produtos;
+DROP TABLE IF EXISTS servicos;
 
-CREATE TABLE produtos (
+CREATE TABLE servicos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     descricao TEXT NOT NULL,
-    peso INTEGER NOT NULL,
-    volume INTEGER NOT NULL,
-    sabor TEXT NOT NULL,
-    valor_custo TEXT NOT NULL,
-    valor_venda TEXT NOT NULL
+    valor TEXT NOT NULL,
+    segmento TEXT NOT NULL
 );

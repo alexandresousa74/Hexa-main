@@ -8,28 +8,28 @@ with open('schema.sql') as f:
 
 cur = connection.cursor()
 
-cur.execute("INSERT INTO clientes (nome, telefone, cidade) VALUES (?, ?, ?)",
-            ('Felipe Alves', '19 22399548', 'Americana')
+cur.execute("INSERT INTO clientes (empresa, contato, email, telefone, cidade, segmento) VALUES (?, ?, ?, ?, ?, ?)",
+            ('Garer','Nina Maria', 'nina@garer.com', '34586324', 'Americana', 'Peças')
             )
 
-cur.execute("INSERT INTO clientes (nome, telefone, cidade) VALUES (?, ?, ?)",
-            ('Alexandre Sousa', '19 92556455', 'Holambra')
+cur.execute("INSERT INTO clientes (empresa, contato, email, telefone, cidade, segmento) VALUES (?, ?, ?, ?, ?, ?)",
+            ('Marquez','Alexandre Sousa', 'alsousa@marquez.com', '33232324', 'Holambra', 'Automotivo')
             )
 
-cur.execute("INSERT INTO vendas (cliente, produto, qtde, valor_total, pago, entregue) VALUES (?, ?, ?, ?, ?, ?)",
-            ('Felipe', 'Pudim', 2, 30, 'Não', 'Sim')
+cur.execute("INSERT INTO projetos (cliente, servicos, valor, inicio, fim) VALUES (?, ?, ?, ?, ?)",
+            ('Garer', 'Teste Laboratório', 5000, '10/11/2024', '30/01/2025')
             )
 
-cur.execute("INSERT INTO vendas (cliente, produto, qtde, valor_total, pago, entregue) VALUES (?, ?, ?, ?, ?, ?)",
-            ('Alexandre', 'Caldo', 1, 18, 'Sim', 'Não')
+cur.execute("INSERT INTO projetos (cliente, servicos, valor, inicio, fim) VALUES (?, ?, ?, ?, ?)",
+            ('Marquez', 'Instalação sensores', 10000, '10/11/2024', '30/01/2025')
             )
 
-cur.execute("INSERT INTO produtos (descricao, peso, volume, sabor, valor_custo, valor_venda) VALUES (?, ?, ?, ?, ?, ?)",
-            ('Pudim', 100, 100, 'Leite Condensado', 10, 15)
+cur.execute("INSERT INTO servicos (descricao, valor, segmento) VALUES (?, ?, ?)",
+            ('Teste Laboratório', 5000, 'Laboratório')
             )
 
-cur.execute("INSERT INTO produtos (descricao, peso, volume, sabor, valor_custo, valor_venda) VALUES (?, ?, ?, ?, ?, ?)",
-            ('Caldo', 200, 50, 'Queijo', 12, 18)
+cur.execute("INSERT INTO servicos (descricao, valor, segmento) VALUES (?, ?, ?)",
+            ('Instalação sensores', 10000, 'Equipamento')
             )
 
 connection.commit()
